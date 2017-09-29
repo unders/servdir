@@ -8,9 +8,9 @@ import (
 
 // build flags
 var (
-	Version    string
-	Buildstamp string
-	Githash    string
+	Version string
+	Commit  string
+	Date    string
 )
 
 var (
@@ -29,7 +29,7 @@ func init() {
 func main() {
 	if version {
 		fmt.Printf("Version data of servdir:")
-		fmt.Printf("\n  version=%s\n  buildstamp=%s\n  githash=%s\n\n", Version, Buildstamp, Githash)
+		fmt.Printf("\n  version=%s\n  commit=%s\n  date=%s\n\n", Version, Commit, Date)
 		return
 	}
 	fmt.Printf("listen on addr %s and serve files from directory %s\n", addr, dir)

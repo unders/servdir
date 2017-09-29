@@ -1,12 +1,3 @@
-RELEASE=v1.0.0
-VERSION="main.Version=$(RELEASE)"
-BUILDSTAMP="main.Buildstamp=$(shell date -u '+%Y-%m-%dT%I:%M%p')"
-GIT_HASH="main.Githash=$(shell git rev-parse HEAD)"
-LDFLAGS=-ldflags "-X $(VERSION) -X $(BUILDSTAMP) -X $(GIT_HASH)"
-GOOS ?= darwin
-GOARCH ?= amd64
-PROG=out/servdir_$(RELEASE)_$(GOOS)_$(GOARCH)
-
 .PHONY: help
 help:
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | \
@@ -15,6 +6,7 @@ help:
 .PHONY: deps
 deps: ## install dependencies (there is only dev dependencies)
 	go get github.com/alecthomas/gometalinter
+	go get github.com/goreleaser/goreleaser
 
 .PHONY: install
 install: ## installs the prog
@@ -26,9 +18,7 @@ check: ## runs linter on the code
 	gometalinter ./... --deadline=45s --vendor
 
 release: clean check ## creates a release
-	GOOS=darwin  GOARCH=amd64  go build $(LDFLAGS) -o out/servdir_$(RELEASE)_darwin_amd64
-	GOOS=linux   GOARCH=arm    go build $(LDFLAGS) -o out/servdir_$(RELEASE)_linux_arm
-	GOOS=windows GOARCH=amd64  go build $(LDFLAGS) -o out/servdir_$(RELEASE)_windows_amd64
+	goreleaser
 
 log: ## shows git log
 	@git log --graph --oneline --decorate
