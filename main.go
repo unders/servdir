@@ -6,16 +6,32 @@ import (
 	"net/http"
 )
 
-var addr = ":8080"
-var dir = "./"
+// build flags
+var (
+	Version    string
+	Buildstamp string
+	Githash    string
+)
+
+var (
+	version = false
+	addr    = ":8080"
+	dir     = "./"
+)
 
 func init() {
+	flag.BoolVar(&version, "v", version, "show version")
 	flag.StringVar(&addr, "addr", addr, "address to listen on")
 	flag.StringVar(&dir, "dir", dir, "directory to serve files from")
 	flag.Parse()
 }
 
 func main() {
+	if version {
+		fmt.Printf("Version data of servdir:")
+		fmt.Printf("\n  version=%s\n  buildstamp=%s\n  githash=%s\n\n", Version, Buildstamp, Githash)
+		return
+	}
 	fmt.Printf("listen on addr %s and serve files from directory %s\n", addr, dir)
 	panic(http.ListenAndServe(addr, log(http.FileServer(http.Dir(dir)))))
 }
