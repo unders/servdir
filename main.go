@@ -8,28 +8,28 @@ import (
 
 // build flags
 var (
-	Version string
-	Commit  string
-	Date    string
+	version string
+	commit  string
+	date    string
 )
 
 var (
-	version = false
-	addr    = ":8080"
-	dir     = "./"
+	showVersion = false
+	addr        = ":8080"
+	dir         = "./"
 )
 
 func init() {
-	flag.BoolVar(&version, "v", version, "show version")
+	flag.BoolVar(&showVersion, "v", showVersion, "show version")
 	flag.StringVar(&addr, "addr", addr, "address to listen on")
 	flag.StringVar(&dir, "dir", dir, "directory to serve files from")
 	flag.Parse()
 }
 
 func main() {
-	if version {
+	if showVersion {
 		fmt.Printf("Version data of servdir:")
-		fmt.Printf("\n  version=%s\n  commit=%s\n  date=%s\n\n", Version, Commit, Date)
+		fmt.Printf("\n  version=%s\n  commit=%s\n  date=%s\n\n", version, commit, date)
 		return
 	}
 	fmt.Printf("listen on addr %s and serve files from directory %s\n", addr, dir)
