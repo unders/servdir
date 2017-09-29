@@ -17,11 +17,8 @@ check: ## runs linter on the code
 	gofmt -l -s -w .
 	gometalinter ./... --deadline=45s --vendor
 
-release: clean check ## creates a release
+release: check ## creates a release
 	goreleaser
 
 log: ## shows git log
 	@git log --graph --oneline --decorate
-
-clean:
-	rm -rf ./out
