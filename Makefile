@@ -26,7 +26,9 @@ check: ## runs linter on the code
 	gometalinter ./... --deadline=45s --vendor
 
 release: clean check ## creates a release
-	go build $(LDFLAGS) -o $(PROG)
+	GOOS=darwin  GOARCH=amd64  go build $(LDFLAGS) -o out/servdir_$(RELEASE)_darwin_amd64
+	GOOS=linux   GOARCH=arm    go build $(LDFLAGS) -o out/servdir_$(RELEASE)_linux_arm
+	GOOS=windows GOARCH=amd64  go build $(LDFLAGS) -o out/servdir_$(RELEASE)_windows_amd64
 
 log: ## shows git log
 	@git log --graph --oneline --decorate
